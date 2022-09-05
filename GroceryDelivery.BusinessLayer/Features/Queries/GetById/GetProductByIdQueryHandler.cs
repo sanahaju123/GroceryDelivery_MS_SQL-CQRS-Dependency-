@@ -19,7 +19,7 @@ namespace GroceryDelivery.BusinessLayer.Features
         }
         public async Task<Product> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var data = await _groceryRepository.GetByIdAsync(request.ProductId);
+            var data = await _groceryRepository.GetProductById(request.ProductId);
             var response = _mapper.Map<Product>(data);
             return response;
 

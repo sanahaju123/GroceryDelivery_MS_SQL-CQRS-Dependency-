@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GroceryDelivery.BusinessLayer.Features.Queries.GetById
 {
-    public class GetOrderByIdQuery : IRequest<ProductOrder>
+    public class GetOrderByIdQuery : IRequest<List<ProductOrder>>
     {
         public int UserId { get; set; }
     }

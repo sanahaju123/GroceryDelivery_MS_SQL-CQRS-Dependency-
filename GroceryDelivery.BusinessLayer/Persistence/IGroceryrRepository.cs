@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace GroceryDelivery.BusinessLayer.Persistence
 {
-    public interface IGroceryRepository : IAsyncRepository<ProductOrder>
+    public interface IGroceryRepository
     {
         Task<Product> AddProduct(Product product);
         Task<ApplicationUser> PlaceOrder(ApplicationUser user);
-        Task<IEnumerable<Product>> GetAllProduct(int? id);
+        Task<IEnumerable<Product>> GetAllProduct();
         Task<Product> GetProductById(int ProductId);
         Task<IEnumerable<Product>> ProductByName(string name);
         Task<IList<Menubar>> MenuList();

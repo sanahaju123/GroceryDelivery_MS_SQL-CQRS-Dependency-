@@ -9,11 +9,11 @@ using GroceryDelivery.BusinessLayer.Features.Queries.GetById;
 namespace GroceryDelivery.Controllers
 {
     [ApiController]
-    public class VideoController : ControllerBase
+    public class HomeController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public VideoController(IMediator mediator)
+        public HomeController(IMediator mediator)
         {
             _mediator = mediator;
         }

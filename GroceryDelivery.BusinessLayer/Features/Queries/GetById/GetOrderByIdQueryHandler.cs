@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GroceryDelivery.BusinessLayer.Features.Queries.GetById
 {
-    public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, ProductOrder>
+    public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, List<ProductOrder>>
     {
         private readonly IGroceryRepository _groceryRepository;
         private readonly IMapper _mapper;
@@ -20,10 +20,10 @@ namespace GroceryDelivery.BusinessLayer.Features.Queries.GetById
             _groceryRepository = groceryRepository;
             _mapper = mapper;
         }
-        public async Task<ProductOrder> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
+        public async Task<List<ProductOrder>> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
             var data = await _groceryRepository.OrderByuserId(request.UserId);
-            return (ProductOrder)data;
+            return (List<ProductOrder>)data;
         }
     }
 }
