@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GroceryDelivery.BusinessLayer.Persistence;
+using GroceryDelivery.BusinessLayer.Persistence.Services;
 using GroceryDelivery.Entites;
 using MediatR;
 using System;
@@ -12,17 +13,17 @@ namespace GroceryDelivery.BusinessLayer.Features.Queries.GetById
 {
     public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, List<ProductOrder>>
     {
-        private readonly IGroceryRepository _groceryRepository;
+        private readonly IGroceryServices _groceryServices;
         private readonly IMapper _mapper;
 
-        public GetOrderByIdQueryHandler(IGroceryRepository groceryRepository, IMapper mapper)
+        public GetOrderByIdQueryHandler(IGroceryServices groceryServices, IMapper mapper)
         {
-            _groceryRepository = groceryRepository;
+            _groceryServices = groceryServices;
             _mapper = mapper;
         }
         public async Task<List<ProductOrder>> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            var data = await _groceryRepository.OrderByuserId(request.UserId);
+            var data = await _groceryServices.OrderByuserId(request.UserId);
             return (List<ProductOrder>)data;
         }
     }

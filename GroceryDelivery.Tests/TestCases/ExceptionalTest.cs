@@ -1,5 +1,9 @@
-
+using GroceryDelivery.BusinessLayer.Persistence;
+using GroceryDelivery.BusinessLayer.Persistence.Services;
+using GroceryDelivery.BusinessLayer.Repositories;
+using GroceryDelivery.DataLayer;
 using GroceryDelivery.Entites;
+using Moq;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -8,23 +12,23 @@ using Xunit.Abstractions;
 
 namespace Grocerydelivery.Tests.TestCases
 {
-    public class ExceptionalTests
+    public class ExceptionalTest
     {
         /// <summary>
         /// Creating Referance Variable of Service Interface and Mocking Repository Interface and class
         /// </summary>
         private readonly ITestOutputHelper _output;
+        private readonly IGroceryServices _GroceryServices;
+        public readonly Mock<IGroceryRepository> service = new Mock<IGroceryRepository>();
         private readonly Product _product;
         private readonly Menubar _menubar;
         private readonly ApplicationUser _user;
-        private readonly ProductOrder _order;
         private static string type = "Exception";
-
-        public ExceptionalTests(ITestOutputHelper output)
+        public ExceptionalTest(ITestOutputHelper output)
         {
             //Creating New mock Object with value.
             _output = output;
-
+            _GroceryServices = new GroceryServices(service.Object);
             _product = new Product
             {
                 ProductId = 2,
@@ -53,14 +57,63 @@ namespace Grocerydelivery.Tests.TestCases
                 City = "Gaya",
                 State = "Bihar"
             };
-            _order = new ProductOrder()
-            {
-                OrderId = 1,
-                ProductId = 1,
-                UserId = 1
-            };
         }
 
-
+        /// <summary>
+        /// Test for placing invalid order
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task<bool> Testfor_Validate_InvlidPlaceOrder()
+        {
+            //Arrange
+            bool res = false;
+            string testName; string status;
+            testName = CallAPI.GetCurrentMethodName();
+            var _userApp = new ApplicationUser()
+            {
+                UserId = 2,
+                Name = "Name1",
+                Email = "namelast@gmail.com",
+                MobileNumber = 9631438113,
+                PinCode = 823311,
+                HouseNo_Building_Name = "9/11",
+                Road_area = "Manpur Gaya",
+                City = "Gaya",
+                State = "Bihar"
+            };
+            _userApp = null;
+            //Act
+            try
+            {
+                service.Setup(repo => repo.PlaceOrder(_user)).ReturnsAsync(_userApp = null);
+                var result = await _GroceryServices.PlaceOrder(_user);
+                if (result == null)
+                {
+                    res = true;
+                }
+            }
+            catch (Exception)
+            {
+                //Assert
+                //final result save in text file if exception raised
+                status = Convert.ToString(res);
+                _output.WriteLine(testName + ":Failed");
+                await CallAPI.saveTestResult(testName, status, type);
+                return false;
+            }
+            //final result save in text file, Call rest API to save test result
+            status = Convert.ToString(res);
+            if (res == true)
+            {
+                _output.WriteLine(testName + ":Passed");
+            }
+            else
+            {
+                _output.WriteLine(testName + ":Failed");
+            }
+            await CallAPI.saveTestResult(testName, status, type);
+            return res;
+        }
     }
 }

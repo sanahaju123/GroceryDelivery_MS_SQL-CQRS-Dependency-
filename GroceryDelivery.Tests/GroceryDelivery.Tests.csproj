@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GroceryDelivery.BusinessLayer\GroceryDelivery.BusinessLayer.csproj" />
     <ProjectReference Include="..\GroceryDelivery.Entities\GroceryDelivery.Entities.csproj" />
+    <ProjectReference Include="..\GroceryDelivery\GroceryDelivery.csproj" />
   </ItemGroup>
 
 </Project>
